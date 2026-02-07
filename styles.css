@@ -1,65 +1,91 @@
 body {
     margin: 0;
-    background-color: #000;
-    color: #ddd;
+    background-color: black;
+    color: white;
     font-family: monospace;
+    font-size: 14px;
 }
 
-#game {
+#game-container {
     display: flex;
     height: 100vh;
 }
 
-/* PANEL IZQUIERDO */
-#status-panel {
-    width: 250px;
-    padding: 15px;
-    border-right: 2px solid #333;
-    box-sizing: border-box;
+#left-panel {
+    width: 20%;
+    padding: 20px;
+    border-right: 2px solid white;
+    position: relative;
 }
 
-#status-panel h2,
-#status-panel h3 {
-    margin-top: 0;
+#top-left {
+    font-size: 24px;
 }
 
-/* PANEL DERECHO */
-#main-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    box-sizing: border-box;
+#playerName {
+    font-size: 32px;
+    font-weight: bold;
 }
 
-/* NARRACIÓN */
-#narration {
-    flex: 1;
-    border: 1px solid #333;
-    padding: 10px;
-    overflow-y: auto;
-    margin-bottom: 10px;
+#timeInfo {
+    margin-top: 10px;
+}
+
+#top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    font-size: 24px;
+}
+
+#stats {
+    margin-top: 80px;
+    line-height: 1.6;
+}
+
+#inventory {
+    margin-top: 20px;
+}
+
+#right-panel {
+    width: 70%;
+    padding: 20px;
+}
+
+#narrative-box {
     white-space: pre-wrap;
+    height: 70%;
+    border: 2px solid white;
+    padding: 15px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
 
-/* OPCIONES */
 #options button {
     display: block;
     width: 100%;
-    margin-bottom: 5px;
-    padding: 8px;
-    background-color: #111;
-    color: #ddd;
-    border: 1px solid #333;
+    margin-bottom: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    padding: 10px;
     cursor: pointer;
-    text-align: left;
 }
 
 #options button:hover {
-    background-color: #222;
+    background-color: white;
+    color: black;
 }
 
-/* ESTADOS CRÍTICOS (para después) */
-.critical {
-    color: red;
+.option-btn {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.option-btn.show {
+    opacity: 1;
+    transform: translateY(0);
 }

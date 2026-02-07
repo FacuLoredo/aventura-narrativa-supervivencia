@@ -2,34 +2,47 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Aventura Narrativa – Prototipo</title>
+    <title>Aventura Narrativa</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div id="game">
+<div id="game-container">
 
-    <!-- COLUMNA IZQUIERDA -->
-    <div id="status-panel">
-        <h2>Jugador</h2>
+    <!-- PANEL IZQUIERDO -->
+    <div id="left-panel">
 
-        <p id="health">Salud: 100/100</p>
-        <p id="energy">Energía: 60/100</p>
-        <p id="hunger">Hambre: 80/100</p>
-        <p id="thirst">Sed: 50/100</p>
-        <p id="temperature">Temperatura: Normal</p>
+        <div id="top-left">
+            <div id="playerName">Player Name</div>
+            <div id="timeInfo">12:00 | 33°C</div>
+        </div>
 
-        <hr>
+        <div id="top-right">
+            <div id="dayInfo">Día: 1</div>
+            <div id="seasonInfo">Verano</div>
+        </div>
 
-        <h3>Inventario</h3>
-        <pre id="inventory"></pre>
+        <div id="stats">
+            <div>Salud: <span id="health">100</span></div>
+            <div>Energía: <span id="energy">100</span></div>
+            <div>Hambre: <span id="hunger">100</span></div>
+            <div>Sed: <span id="thirst">100</span></div>
+        </div>
+
+        <div id="inventory">
+            <strong>Inventario</strong>
+            <div id="inventoryList"></div>
+        </div>
+
     </div>
 
-    <!-- COLUMNA DERECHA -->
-    <div id="main-panel">
-        <div id="narration"></div>
+    <!-- PANEL DERECHO -->
+    <div id="right-panel">
+
+        <div id="narrative-box"></div>
 
         <div id="options"></div>
+
     </div>
 
 </div>

@@ -1,93 +1,76 @@
-/* ===============================
-   ESTADO DEL JUGADOR
-================================ */
-const player = {
+let events = {};
+
+let player = {
+    name: "Player Name",
     health: 100,
-    energy: 60,
-    hunger: 80,
-    thirst: 50,
-    temperature: "Normal",
-    inventory: {
-        "Piedra": 3,
-        "Rama": 2
-    }
+    energy: 100,
+    hunger: 100,
+    thirst: 100,
+    inventory: {}
 };
 
-/* ===============================
-   EVENTOS (DESDE JSON)
-================================ */
-let events = {};
-let currentEvent = "intro";
+let worldTime = {
+    hour: 12,
+    day: 1,
+    season: "Verano",
+    temperature: 33
+};
 
-/* ===============================
-   REFERENCIAS DOM
-================================ */
-const narrationEl = document.getElementById("narration");
-const optionsEl = document.getElementById("options");
+fetch("events.json")
+    .then(res => res.json())
+    .then(data => {
+        events = data;
+        showEvent("intro");
+        updateUI();
+    });
 
-const healthEl = document.getElementById("health");
-const energyEl = document.getElementById("energy");
-const hungerEl = document.getElementById("hunger");
-const thirstEl = document.getElementById("thirst");
-const temperatureEl = document.getElementById("temperature");
-const inventoryEl = document.getElementById("inventory");
+function typeWriter(element, text, speed = 20, callback = null) {
+    element.innerText = "";
+    let index = 0;
 
-/* ===============================
-   CARGA DEL JSON
-================================ */
-async function loadEvents() {
-    try {
-        const response = await fetch("events.json");
-        events = await response.json();
-        startGame();
-    } catch (error) {
-        narrationEl.textContent = "ERROR: No se pudo cargar events.json";
-        console.error(error);
-    }
+    const interval = setInterval(() => {
+        element.innerText += text[index];
+        index++;
+
+        if (index >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
 }
 
-/* ===============================
-   INICIO DEL JUEGO
-================================ */
-function startGame() {
-    updateUI();
-    showEvent(currentEvent);
-}
-
-/* ===============================
-   MOSTRAR EVENTO
-================================ */
 function showEvent(eventId) {
-    currentEvent = eventId;
     const event = events[eventId];
+    const narrativeBox = document.getElementById("narrative-box");
+    const optionsDiv = document.getElementById("options");
 
-    if (!event) {
-        narrationEl.textContent = "ERROR: Evento no encontrado: " + eventId;
-        return;
-    }
+    optionsDiv.innerHTML = "";
 
-    narrationEl.textContent = event.text;
-    optionsEl.innerHTML = "";
+    typeWriter(narrativeBox, event.text, 40, () => {
+        event.options.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = option.text;
+            btn.classList.add("option-btn");
+            btn.onclick = () => selectOption(option);
 
-    event.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.textContent = option.text;
-        btn.onclick = () => selectOption(option);
-        optionsEl.appendChild(btn);
+            optionsDiv.appendChild(btn);
+
+            setTimeout(() => {
+                btn.classList.add("show");
+            }, index * 200);
+        });
     });
 }
 
-/* ===============================
-   AL ELEGIR OPCIÓN
-================================ */
 function selectOption(option) {
+    advanceTime(1);
+
     if (option.effects) {
         applyEffects(option.effects);
     }
 
     updateUI();
 
-    // CHEQUEO GLOBAL DE COLAPSO
     if (player.energy <= 0) {
         showEvent("collapse");
         return;
@@ -96,36 +79,39 @@ function selectOption(option) {
     showEvent(option.next);
 }
 
-/* ===============================
-   EFECTOS
-================================ */
+
 function applyEffects(effects) {
     for (let key in effects) {
-        if (typeof player[key] === "number") {
+        if (player[key] !== undefined) {
             player[key] += effects[key];
             player[key] = Math.max(0, Math.min(100, player[key]));
         }
     }
 }
 
-/* ===============================
-   ACTUALIZAR UI
-================================ */
-function updateUI() {
-    healthEl.textContent = `Salud: ${player.health}/100`;
-    energyEl.textContent = `Energía: ${player.energy}/100`;
-    hungerEl.textContent = `Hambre: ${player.hunger}/100`;
-    thirstEl.textContent = `Sed: ${player.thirst}/100`;
-    temperatureEl.textContent = `Temperatura: ${player.temperature}`;
+function advanceTime(hours) {
+    worldTime.hour += hours;
 
-    let invText = "";
-    for (let item in player.inventory) {
-        invText += `${item} x${player.inventory[item]}\n`;
+    if (worldTime.hour >= 24) {
+        worldTime.hour -= 24;
+        worldTime.day += 1;
     }
-    inventoryEl.textContent = invText;
 }
 
-/* ===============================
-   CARGAR TODO
-================================ */
-loadEvents();
+function updateUI() {
+    document.getElementById("playerName").innerText = player.name;
+    document.getElementById("timeInfo").innerText =
+        `${formatHour(worldTime.hour)} | ${worldTime.temperature}°C`;
+
+    document.getElementById("dayInfo").innerText = `Día: ${worldTime.day}`;
+    document.getElementById("seasonInfo").innerText = worldTime.season;
+
+    document.getElementById("health").innerText = player.health;
+    document.getElementById("energy").innerText = player.energy;
+    document.getElementById("hunger").innerText = player.hunger;
+    document.getElementById("thirst").innerText = player.thirst;
+}
+
+function formatHour(hour) {
+    return hour.toString().padStart(2, "0") + ":00";
+}
