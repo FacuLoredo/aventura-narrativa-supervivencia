@@ -1,0 +1,73 @@
+{
+  "intro": {
+    "text": "Despiertas en un mundo desconocido.\nEl aire es pesado, el silencio inquietante.\nNo recuerdas cómo llegaste aquí.",
+    "options": [
+      {
+        "text": "Explorar los alrededores",
+        "next": "explore",
+        "effects": {
+          "energy": -10,
+          "hunger": -5
+        }
+      },
+      {
+        "text": "Descansar un poco",
+        "next": "rest",
+        "effects": {
+          "energy": 15
+        }
+      }
+    ]
+  },
+
+  "explore": {
+    "text": "Avanzas entre árboles antiguos.\nEl suelo está húmedo y encuentras huellas recientes.",
+    "options": [
+      {
+        "text": "Seguir las huellas",
+        "next": "intro",
+        "effects": {
+          "energy": -10
+        }
+      }
+    ]
+  },
+
+  "rest": {
+    "text": "Te sientas a descansar.\nEl tiempo pasa lentamente mientras recuperas fuerzas.",
+    "options": [
+      {
+        "text": "Levantarte",
+        "next": "intro",
+        "effects": {}
+      }
+    ]
+  },
+
+  "collapse": {
+    "text": "Te sientes débil. Notas cómo las fuerzas abandonan tu cuerpo.\nTu vista se oscurece.",
+    "options": [
+      {
+        "text": "...",
+        "next": "recover",
+        "effects": {}
+      }
+    ]
+  },
+  
+  "recover": {
+    "text": "Despiertas horas después, desorientado pero con fuerzas renovadas.",
+    "options": [
+      {
+        "text": "Levantarte lentamente",
+        "next": "intro",
+        "effects": {
+          "energy": 50,
+          "hunger": -15,
+          "thirst": -15
+        }
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    background-color: #000;
+    color: #ddd;
+    font-family: monospace;
+}
+
+#game {
+    display: flex;
+    height: 100vh;
+}
+
+/* PANEL IZQUIERDO */
+#status-panel {
+    width: 250px;
+    padding: 15px;
+    border-right: 2px solid #333;
+    box-sizing: border-box;
+}
+
+#status-panel h2,
+#status-panel h3 {
+    margin-top: 0;
+}
+
+/* PANEL DERECHO */
+#main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* NARRACIÓN */
+#narration {
+    flex: 1;
+    border: 1px solid #333;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+/* OPCIONES */
+#options button {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 8px;
+    background-color: #111;
+    color: #ddd;
+    border: 1px solid #333;
+    cursor: pointer;
+    text-align: left;
+}
+
+#options button:hover {
+    background-color: #222;
+}
+
+/* ESTADOS CRÍTICOS (para después) */
+.critical {
+    color: red;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aventura Narrativa – Prototipo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="game">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div id="status-panel">
+        <h2>Jugador</h2>
+
+        <p id="health">Salud: 100/100</p>
+        <p id="energy">Energía: 60/100</p>
+        <p id="hunger">Hambre: 80/100</p>
+        <p id="thirst">Sed: 50/100</p>
+        <p id="temperature">Temperatura: Normal</p>
+
+        <hr>
+
+        <h3>Inventario</h3>
+        <pre id="inventory"></pre>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div id="main-panel">
+        <div id="narration"></div>
+
+        <div id="options"></div>
+    </div>
+
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
