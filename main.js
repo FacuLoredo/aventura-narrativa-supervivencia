@@ -12,8 +12,7 @@ let player = {
 let worldTime = {
     hour: 12,
     day: 1,
-    season: "Verano",
-    temperature: 33
+    season: "Verano"
 };
 
 fetch("events.json")
@@ -89,21 +88,88 @@ function applyEffects(effects) {
     }
 }
 
-function advanceTime(hours) {
-    worldTime.hour += hours;
+function getTimeOfDay(hour) {
+  if (hour >= 6 && hour < 12) return "Mañana";
+  if (hour >= 12 && hour < 18) return "Día";
+  if (hour >= 18 && hour < 21) return "Tarde";
+  return "Noche";
+}
 
-    if (worldTime.hour >= 24) {
-        worldTime.hour -= 24;
-        worldTime.day += 1;
+const seasons = {
+    Verano: { baseTemp: 28 },
+    Primavera: { baseTemp: 18 },
+    Otoño: { baseTemp: 15 },
+    Invierno: { baseTemp: 5 } // más adelante
+};
+
+const timeTempModifiers = {
+    "Mañana": -3,
+    "Día": +4,
+    "Tarde": +2,
+    "Noche": -5
+};
+
+function calculateTemperature() {
+    const base = seasons[worldTime.season].baseTemp;
+    const timeOfDay = getTimeOfDay(worldTime.hour);
+    return base + timeTempModifiers[timeOfDay];
+}
+
+function advanceTime(hours = 1) {
+    for (let i = 0; i < hours; i++) {
+        worldTime.hour++;
+
+        // cambio de día
+        if (worldTime.hour >= 24) {
+            worldTime.hour = 0;
+            worldTime.day++;
+        }
+
+        // temperatura actual
+        const temperature = calculateTemperature();
+
+        // sed base + modificador por temperatura
+        let thirstLoss = 5;
+        if (temperature >= 30) thirstLoss += 3;
+        else if (temperature >= 24) thirstLoss += 2;
+        else if (temperature <= 8) thirstLoss -= 1;
+
+        player.thirst -= thirstLoss;
+        player.hunger -= 2;
+
+        player.thirst = Math.max(0, player.thirst);
+        player.hunger = Math.max(0, player.hunger);
+
+        applySurvivalEffects();
     }
+
+    updateUI();
+}
+
+function applySurvivalEffects() {
+    if (player.thirst <= 0) {
+        player.health -= 5;
+        player.energy -= 5;
+    }
+
+    if (player.hunger <= 0) {
+        player.energy -= 3;
+    }
+
+    player.health = Math.max(0, player.health);
+    player.energy = Math.max(0, player.energy);
 }
 
 function updateUI() {
-    document.getElementById("playerName").innerText = player.name;
-    document.getElementById("timeInfo").innerText =
-        `${formatHour(worldTime.hour)} | ${worldTime.temperature}°C`;
+    const timeOfDay = getTimeOfDay(worldTime.hour);
+    const temperature = calculateTemperature();
 
-    document.getElementById("dayInfo").innerText = `Día: ${worldTime.day}`;
+    document.getElementById("playerName").innerText = player.name;
+
+    document.getElementById("timeInfo").innerText =
+        `${formatHour(worldTime.hour)} · ${timeOfDay} · ${temperature}°C`;
+
+    document.getElementById("dayInfo").innerText = `Día ${worldTime.day}`;
     document.getElementById("seasonInfo").innerText = worldTime.season;
 
     document.getElementById("health").innerText = player.health;
