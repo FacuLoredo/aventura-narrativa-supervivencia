@@ -6,6 +6,7 @@ let player = {
     energy: 100,
     hunger: 100,
     thirst: 100,
+    sick: false,
     inventory: {}
 };
 
@@ -45,7 +46,16 @@ function showEvent(eventId) {
 
     optionsDiv.innerHTML = "";
 
+    // 👉 CASO ESPECIAL: menú diario
+    if (event.menu === "daily") {
+        showDailyMenu(event.text);
+        return;
+    }
+
+    // 👉 flujo normal de eventos
     typeWriter(narrativeBox, event.text, 40, () => {
+        if (!event.options) return;
+
         event.options.forEach((option, index) => {
             const btn = document.createElement("button");
             btn.innerText = option.text;
@@ -180,4 +190,60 @@ function updateUI() {
 
 function formatHour(hour) {
     return hour.toString().padStart(2, "0") + ":00";
+}
+
+function tryGetSick(probability = 0.1) {
+  if (!player.sick && Math.random() < probability) {
+    player.sick = true;
+    showEvent("sick");
+  }
+}
+
+function showDailyMenu(text) {
+    const narrativeBox = document.getElementById("narrative-box");
+    const optionsDiv = document.getElementById("options");
+
+    narrativeBox.innerText = text;
+    optionsDiv.innerHTML = "";
+
+    const menuOptions = [
+        { text: "Explorar", action: "explore" },
+        { text: "Crear", action: "craft" },
+        { text: "Inventario", action: "inventory" },
+        { text: "Otro", action: "other" }
+    ];
+
+    menuOptions.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt.text;
+        btn.classList.add("option-btn");
+        btn.onclick = () => handleDailyMenu(opt.action);
+
+        optionsDiv.appendChild(btn);
+
+        setTimeout(() => {
+            btn.classList.add("show");
+        }, index * 150);
+    });
+}
+
+function handleDailyMenu(action) {
+    switch (action) {
+        case "explore":
+            advanceTime(4);
+            showEvent("explore-forest");
+            break;
+
+        case "craft":
+            showEvent("craft-menu");
+            break;
+
+        case "inventory":
+            showEvent("inventory-menu");
+            break;
+
+        case "other":
+            showEvent("other-menu");
+            break;
+    }
 }

@@ -41,6 +41,85 @@
     ]
   },
 
+  "river": {
+  "text": "Sigues el sonido hasta encontrar un pequeño arroyo.\nEl agua corre clara entre las piedras.\nLa sed aprieta.",
+  "options": [
+    {
+      "text": "Beber agua",
+      "next": "after-water",
+      "effects": {
+        "thirst": 40,
+        "energy": -5
+      }
+    },
+    {
+      "text": "Seguir caminando",
+      "next": "forest-wander",
+      "effects": {
+        "energy": -10
+      }
+    }
+  ]
+},
+  "after-water": {
+  "text": "El agua te devuelve un poco de alivio.\nEl sol comienza a descender entre los árboles.\nLa luz cambia.",
+  "options": [
+    {
+      "text": "Explorar un poco más",
+      "next": "forest-wander",
+      "effects": {
+        "energy": -10
+      }
+    },
+    {
+      "text": "Buscar un lugar para pasar la noche",
+      "next": "find-shelter",
+      "effects": {
+        "energy": -5
+      }
+    }
+  ]
+},
+
+  "forest-wander": {
+  "text": "Caminas sin rumbo claro.\nEl bosque parece no terminar nunca.\nEl cansancio se acumula.",
+  "options": [
+    {
+      "text": "Buscar un lugar para descansar",
+      "next": "find-shelter",
+      "effects": {
+        "energy": -10
+      }
+    }
+  ]
+},
+
+  "find-shelter": {
+  "text": "Encuentras un árbol grande y frondoso.\nNo es un refugio, pero ofrece algo de protección.\nLa noche cae.",
+  "options": [
+    {
+      "text": "Intentar dormir",
+      "next": "sleep-tree",
+      "effects": {}
+    }
+  ]
+},
+
+  "sleep-tree": {
+  "text": "Te acomodas como puedes entre las raíces.\nEl frío y los sonidos del bosque no te dejan descansar bien.",
+  "options": [
+    {
+      "text": "Aguantar la noche",
+      "next": "day-start",
+      "effects": {
+        "energy": 30,
+        "hunger": -15,
+        "thirst": -10
+      }
+    }
+  ]
+},
+
   "rest": {
     "text": "Te sientas a descansar.\n Vez el tiempo pasar lentamente mientras recuperas fuerzas.",
     "options": [
@@ -62,6 +141,11 @@
       }
     ]
   },
+
+  "day-start": {
+  "text": "Despiertas luego de una noche fría...\nEl bosque vuelve a cobrar vida.",
+  "menu": "daily"
+},
 
   "collapse": {
     "text": "Te sientes débil. Notas cómo las fuerzas abandonan tu cuerpo.\nTu vista se oscurece.",
