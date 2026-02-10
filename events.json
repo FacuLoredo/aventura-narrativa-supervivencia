@@ -1,13 +1,21 @@
 {
   "intro": {
-    "text": "Despiertas en un mundo desconocido.\nEl aire es pesado, el silencio inquietante.\nNo recuerdas cómo llegaste aquí.",
+    "text": "Despiertas en un mundo desconocido.\nEl sol golpea fuerte en tus ojos cegandote. \nSientes calor, el aire es pesado y el silencio inquietante...\nTu mente está nublada, no recuerdas cómo llegaste aquí.",
     "options": [
       {
-        "text": "Explorar los alrededores",
-        "next": "explore",
+        "text": "Ver los alrededores",
+        "next": "look-around",
         "effects": {
-          "energy": -10,
-          "hunger": -5
+          "energy": -0,
+          "hunger": -0
+        }
+      },
+      {
+        "text": "Ver tu estado",
+        "next": "status",
+        "effects": {
+          "energy": -0,
+          "hunger": -0
         }
       },
       {
@@ -20,12 +28,12 @@
     ]
   },
 
-  "explore": {
-    "text": "Avanzas entre árboles antiguos.\nEl suelo está húmedo y encuentras huellas recientes.",
+  "look-around": {
+    "text": "Das una vista rápida alrededor. Observas un mar de arboles interminable, no distingues nada. \nA la leganía logras oír un sonido liquido, una corriente de agua.",
     "options": [
       {
-        "text": "Seguir las huellas",
-        "next": "intro",
+        "text": "Seguir sonido",
+        "next": "river",
         "effects": {
           "energy": -10
         }
@@ -34,12 +42,23 @@
   },
 
   "rest": {
-    "text": "Te sientas a descansar.\nEl tiempo pasa lentamente mientras recuperas fuerzas.",
+    "text": "Te sientas a descansar.\n Vez el tiempo pasar lentamente mientras recuperas fuerzas.",
     "options": [
       {
-        "text": "Levantarte",
-        "next": "intro",
-        "effects": {}
+        "text": "Ver los alrededores",
+        "next": "look-around",
+        "effects": {
+          "energy": -0,
+          "hunger": -0
+        }
+      },
+      {
+        "text": "Ver tu estado",
+        "next": "status",
+        "effects": {
+          "energy": -0,
+          "hunger": -0
+        }
       }
     ]
   },
